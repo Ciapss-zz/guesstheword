@@ -59,8 +59,6 @@ var gameFactory = function($http) {
 
         newWords = shuffleArr(tempArr);
 
-        console.log(newWords);
-
         return newWords;
     }
 
@@ -74,6 +72,50 @@ var gameFactory = function($http) {
             return shuffleWords(response.data);
         });
     };
+
+
+    //get word from words object, count max score for current word
+    gameFactoryObj.getWord = function(newState) {
+        var updatedState = newState;
+        updatedState.gameRunning = true;
+        if(updatedState.words.length > 0) {
+            updatedState.wordScores = 0;
+
+            if (!updatedState.scores) {
+                updatedState.scores = 0;
+            }
+
+            var wordToGuess = updatedState.words[0].answer;
+            var shuffledWord = updatedState.words[0].word;
+            var wordLength = wordToGuess.length;
+
+            updatedState.wordScores += Math.floor(Math.pow(wordLength / 3, 1.95));
+            updatedState.words = updatedState.words;
+            updatedState.wordToGuess = wordToGuess;
+            updatedState.shuffledWord = shuffledWord;
+            updatedState.answer = "";
+
+            return updatedState
+        }
+    }
+
+
+    //take next word 
+    gameFactoryObj.nextWord = function(currentState) {
+        var newState = currentState;
+        if(currentState.answer.toUpperCase() == currentState.wordToGuess.toUpperCase()) {
+
+            newState.scores += currentState.wordScores;
+            newState.wordScores = 0;
+            newState.words.shift();
+            newState.answer = "";
+
+            //newState is updated scope object without last word
+            gameFactoryObj.getWord(newState); 
+
+            return newState
+        }
+    }
 
 
     return gameFactoryObj; 

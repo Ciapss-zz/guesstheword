@@ -5,7 +5,12 @@ var GameController = ['$scope', '$http', 'gameFactory', function($scope, $http, 
         var currentState = {};
         gameFactory.getWords().then(function(data) {
             currentState.words = data;
+            $scope.currentState = gameFactory.getWord(currentState);
         });
+    }
+
+    $scope.next = function() {
+        gameFactory.nextWord($scope.currentState);
     }
 }];
 
