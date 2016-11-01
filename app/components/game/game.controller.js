@@ -1,8 +1,12 @@
 var GameController = ['$scope', '$http', 'gameFactory', function($scope, $http, gameFactory) {
-    gameFactory.getWords().then(function(response) {
-        // $scope.words = response.data;
-        console.log(response.data);
-    });
+
+    //Get all shuffeled words at start
+    $scope.start = function() {
+        var currentState = {};
+        gameFactory.getWords().then(function(data) {
+            currentState.words = data;
+        });
+    }
 }];
 
 angular.module('myApp.game')
