@@ -19,8 +19,15 @@ var dist = {
 
 var angular = [
   './app/app.module.js',
+  './app/shared/services.js',
   './app/components/welcome/welcome.js',
-  './app/components/welcome/welcome.controller.js'
+  './app/components/welcome/welcome.controller.js',
+  './app/components/words/words.js',
+  './app/components/words/words.controller.js',
+  './app/components/game/game.js',
+  './app/components/game/game.factories.js',
+  './app/components/game/game.controller.js',
+
 ];
 
 gulp.task('serve', ['sass', 'angularMerge'], function() {
