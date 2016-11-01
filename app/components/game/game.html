@@ -3,10 +3,10 @@
         <div>
             <legend class="legend-word">Guess the assd!</legend>
             <div class="form-group">
-                <div ng-show="currentState.gameRunning">
-                    {{currentState.shuffledWord}}
+                <div class="letter" ng-repeat="s in currentState.shuffledWord.split('') track by $index">
+                    {{s}}
                 </div>
-                <input type="text" class="form-control" ng-model="currentState.answer"/>
+                <answer></answer>
             </div>
             <button type="button" class="btn btn-large btn-block btn-default" ng-show="currentState.gameRunning" ng-click="next()">Next</button>
             <button type="button" class="btn btn-large btn-block btn-default" ng-click="start()" ng-show="!currentState.gameRunning">Start</button>

@@ -6,6 +6,7 @@ var GameController = ['$scope', '$http', 'gameFactory', function($scope, $http, 
         gameFactory.getWords().then(function(data) {
             currentState.words = data;
             $scope.currentState = gameFactory.getWord(currentState);
+            document.getElementById('answer-field').focus();
         });
     }
 

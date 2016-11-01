@@ -27,6 +27,7 @@ var angular = [
   './app/components/game/game.js',
   './app/components/game/game.factories.js',
   './app/components/game/game.controller.js',
+  './app/components/game/game.directives.js'
 ];
 
 gulp.task('serve', ['sass', 'angularMerge'], function() {

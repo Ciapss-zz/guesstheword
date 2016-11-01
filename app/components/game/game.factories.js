@@ -77,9 +77,8 @@ var gameFactory = function($http) {
     //get word from words object, count max score for current word
     gameFactoryObj.getWord = function(newState) {
         var updatedState = newState;
-        updatedState.gameRunning = true;
         if(updatedState.words.length > 0) {
-            updatedState.wordScores = 0;
+
 
             if (!updatedState.scores) {
                 updatedState.scores = 0;
@@ -88,7 +87,10 @@ var gameFactory = function($http) {
             var wordToGuess = updatedState.words[0].answer;
             var shuffledWord = updatedState.words[0].word;
             var wordLength = wordToGuess.length;
-
+            
+            updatedState.gameRunning = true;
+            updatedState.wordScores = 0;
+            updatedState.penalty = 0;
             updatedState.wordScores += Math.floor(Math.pow(wordLength / 3, 1.95));
             updatedState.words = updatedState.words;
             updatedState.wordToGuess = wordToGuess;
@@ -104,6 +106,13 @@ var gameFactory = function($http) {
     gameFactoryObj.nextWord = function(currentState) {
         var newState = currentState;
         if(currentState.answer.toUpperCase() == currentState.wordToGuess.toUpperCase()) {
+            
+            //set penalty for deleting chars
+            if (currentState.wordScores < currentState.penalty) {
+                newState.wordScores = 0;
+            } else {
+              newState.wordScores -= currentState.penalty;  
+            }
 
             newState.scores += currentState.wordScores;
             newState.wordScores = 0;

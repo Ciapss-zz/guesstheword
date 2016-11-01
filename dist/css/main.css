@@ -1,2 +1,13 @@
+.letter {
+  float: left;
+  padding: 10px;
+  border-bottom: 3px solid black;
+  margin-bottom: 15px;
+  margin-left: 10px;
+  font-size: 24px;
+  background-color: #ff4b4b;
+  width: 50px;
+  text-align: center; }
+
 .legend-word {
   color: black; }

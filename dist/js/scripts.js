@@ -160,9 +160,8 @@ var gameFactory = function($http) {
     //get word from words object, count max score for current word
     gameFactoryObj.getWord = function(newState) {
         var updatedState = newState;
-        updatedState.gameRunning = true;
         if(updatedState.words.length > 0) {
-            updatedState.wordScores = 0;
+
 
             if (!updatedState.scores) {
                 updatedState.scores = 0;
@@ -171,7 +170,10 @@ var gameFactory = function($http) {
             var wordToGuess = updatedState.words[0].answer;
             var shuffledWord = updatedState.words[0].word;
             var wordLength = wordToGuess.length;
-
+            
+            updatedState.gameRunning = true;
+            updatedState.wordScores = 0;
+            updatedState.penalty = 0;
             updatedState.wordScores += Math.floor(Math.pow(wordLength / 3, 1.95));
             updatedState.words = updatedState.words;
             updatedState.wordToGuess = wordToGuess;
@@ -187,6 +189,13 @@ var gameFactory = function($http) {
     gameFactoryObj.nextWord = function(currentState) {
         var newState = currentState;
         if(currentState.answer.toUpperCase() == currentState.wordToGuess.toUpperCase()) {
+            
+            //set penalty for deleting chars
+            if (currentState.wordScores < currentState.penalty) {
+                newState.wordScores = 0;
+            } else {
+              newState.wordScores -= currentState.penalty;  
+            }
 
             newState.scores += currentState.wordScores;
             newState.wordScores = 0;
@@ -214,6 +223,7 @@ var GameController = ['$scope', '$http', 'gameFactory', function($scope, $http, 
         gameFactory.getWords().then(function(data) {
             currentState.words = data;
             $scope.currentState = gameFactory.getWord(currentState);
+            document.getElementById('answer-field').focus();
         });
     }
 
@@ -224,3 +234,55 @@ var GameController = ['$scope', '$http', 'gameFactory', function($scope, $http, 
 
 angular.module('myApp.game')
 .controller('GameController', GameController);
+//scan for how many chars has been deleted in input
+var answer = function() {
+    return {
+        restrict: 'EA',
+        scope: false, 
+        template: "<input id='answer-field' type='text' ng-model='currentState.answer' ng-show='currentState.gameRunning' class='form-control' focus-on='currentState.gameRunning' enter-click='next()' />",
+        link: function(scope) {
+            scope.$watch('currentState.answer', function(newValue, oldValue) {
+                if(newValue && oldValue) {
+                    if(oldValue.length > newValue.length) {
+                        scope.currentState.penalty = scope.currentState.penalty + (oldValue.length - newValue.length);
+                    }
+                }
+            });
+        }
+    }
+};
+
+//move to next word pressing "enter"
+var enterClick = function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.enterClick);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+};
+
+//focus on input on start and after move to next word
+var focusOn = function($timeout) {
+    return {
+        restrict : 'A',
+        link : function($scope,$element,$attr) {
+            $scope.$watch($attr.focusOn,function(_focusVal) {
+                $timeout(function() {
+                    _focusVal ? $element.focus() :
+                        $element.blur();
+                });
+            });
+        }
+    }
+}
+
+angular.module('myApp.game')
+.directive('answer', answer)
+.directive('enterClick', enterClick)
+.directive('focusOn', focusOn);
