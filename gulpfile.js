@@ -9,7 +9,7 @@ var rename      = require('gulp-rename');
 
 var src = {
     scss: './app/assets/scss/**/*.scss',
-    html: './app/*.html'
+    html: './app/components/**/*.html'
 };
 
 var dist = {
@@ -27,12 +27,11 @@ var angular = [
   './app/components/game/game.js',
   './app/components/game/game.factories.js',
   './app/components/game/game.controller.js',
-
 ];
 
 gulp.task('serve', ['sass', 'angularMerge'], function() {
     browserSync.init({
-        proxy: "http://127.0.0.1:8080/app/#/"
+        proxy: "http://localhost:8080/app/",
     });
 
     gulp.watch(src.scss, ['sass']);

@@ -1,3 +1,4 @@
+//Service for passing objects between controllers
 var getPassObj = function() {
     var obj;
 
