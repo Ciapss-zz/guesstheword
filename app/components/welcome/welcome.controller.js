@@ -8,7 +8,9 @@ var WelcomeController = ['$scope', '$location', 'getPassObj', 'results', functio
 
     //Create name of player and pass to game controller
     $scope.startGame = function(name) {
-        getPassObj.passObj(name);
+        
+        //set username in localstorage for simple authorization
+        localStorage.username = name;
         $location.path('/game');
     }
 }];

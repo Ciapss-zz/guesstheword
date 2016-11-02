@@ -4,8 +4,8 @@ var GameController = ['$scope', '$http', '$location', 'gameFactory', 'getPassObj
     // $scope.username = "dev";
 
 
-    //get username from homepage
-    $scope.username = getPassObj.getObj();
+    //get username from localStorage
+    $scope.username = localStorage.username;
 
     //Get all shuffeled words at start
     $scope.start = function() {
@@ -25,9 +25,12 @@ var GameController = ['$scope', '$http', '$location', 'gameFactory', 'getPassObj
     //finish game, save results and pass result object to results view
     $scope.finish = function() {
         var result = {
-            name: $scope.username,
+            name: localStorage.username,
             scores: $scope.currentState.scores
         };
+
+        //deleting localstorage to prevent start game from /game URL
+        localStorage.removeItem("username");
 
         getPassObj.passObj(result);
         $location.path('/result');

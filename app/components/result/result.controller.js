@@ -1,7 +1,7 @@
 var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results', function($scope, $http, $location, getPassObj, results) {
 
     // set username manually to get /game.html without setting username on homepage
-    // $scope.result = "dev";
+    // $scope.result = "dev";  
     
     //get username from welcome view
     $scope.result = getPassObj.getObj();
@@ -10,7 +10,6 @@ var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results',
     var getResults = function(){
         results.get().then(function(response) {
             $scope.allResults = response;
-            console.log('GET:' + response);
         });
     };
 

@@ -37,10 +37,7 @@ var results = function($http) {
         });
     };
     var save = function(results) {
-            console.log(results);
-            return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results).then(function(response) {
-                return console.log('save: ' + response);
-            });
+        return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results);
     }
 
     return {
@@ -90,7 +87,9 @@ var WelcomeController = ['$scope', '$location', 'getPassObj', 'results', functio
 
     //Create name of player and pass to game controller
     $scope.startGame = function(name) {
-        getPassObj.passObj(name);
+        
+        //set username in localstorage for simple authorization
+        localStorage.username = name;
         $location.path('/game');
     }
 }];
@@ -276,8 +275,8 @@ var GameController = ['$scope', '$http', '$location', 'gameFactory', 'getPassObj
     // $scope.username = "dev";
 
 
-    //get username from homepage
-    $scope.username = getPassObj.getObj();
+    //get username from localStorage
+    $scope.username = localStorage.username;
 
     //Get all shuffeled words at start
     $scope.start = function() {
@@ -297,9 +296,12 @@ var GameController = ['$scope', '$http', '$location', 'gameFactory', 'getPassObj
     //finish game, save results and pass result object to results view
     $scope.finish = function() {
         var result = {
-            name: $scope.username,
+            name: localStorage.username,
             scores: $scope.currentState.scores
         };
+
+        //deleting localstorage to prevent start game from /game URL
+        localStorage.removeItem("username");
 
         getPassObj.passObj(result);
         $location.path('/result');
@@ -371,7 +373,7 @@ angular.module('myApp.result', ['ngRoute'])
 var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results', function($scope, $http, $location, getPassObj, results) {
 
     // set username manually to get /game.html without setting username on homepage
-    // $scope.result = "dev";
+    // $scope.result = "dev";  
     
     //get username from welcome view
     $scope.result = getPassObj.getObj();
@@ -380,7 +382,6 @@ var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results',
     var getResults = function(){
         results.get().then(function(response) {
             $scope.allResults = response;
-            console.log('GET:' + response);
         });
     };
 

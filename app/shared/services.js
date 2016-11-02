@@ -24,10 +24,7 @@ var results = function($http) {
         });
     };
     var save = function(results) {
-            console.log(results);
-            return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results).then(function(response) {
-                return console.log('save: ' + response);
-            });
+        return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results);
     }
 
     return {
