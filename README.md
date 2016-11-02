@@ -2,7 +2,7 @@
 
 ## **Simple game coded in AngularJS with Firebase.**
 
-Guees as many words from shuffeled letters in 40 seconds.
+Guees as many words as you can from shuffeled letters in 40 seconds.
 
 **Libraries used in project:**
 - AngularJS 1.5.8
