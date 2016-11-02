@@ -20,7 +20,8 @@ To build project you need run:
 npm install
 ```
 
-And using http server e.g. [http-server](https://www.npmjs.com/package/http-server)
+And using http server e.g. [http-server](https://www.npmjs.com/package/http-server) 
+or any other on port :8080
 
 run terminal in main project's directory and type: 
 ```
