@@ -11,7 +11,7 @@ Guees as many words as you can from shuffeled letters in 40 seconds.
 - node.js
 - gulp.js
 - bootstrap3 (with jQuery)
-- AngularTimer
+- [AngularTimer](https://siddii.github.io/angular-timer/)
 
 
 
