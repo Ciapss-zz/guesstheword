@@ -2,7 +2,7 @@
   <h1>Welcome to Guess the word!</h1>
   <div class="col-xs-12">
     <p></p>
-    <input type="text" class="username form-control" ng-model="name" placeholder="Type your name" required> 
+    <input type="text" class="username form-control" ng-model="name" placeholder="Type your name" enter-click="startGame(name)" required> 
     <a class="play btn btn-lg btn-success" ng-click="startGame(name)" role="button">Play the game!</a>
   </div>
 </div>

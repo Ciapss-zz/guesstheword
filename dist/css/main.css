@@ -1,1 +1,102 @@
-.game .legend-word,.game p,.ranking h1,.results h1,.results h3,.results p,.timer,.titlePage h1{color:#fff}.game .letter,.ranking h1,.ranking table .points,.ranking table .points-th,.timer,.titlePage h1{text-align:center}@font-face{font-family:Montserrat;src:url(../fonts/Montserrat-Regular.ttf)}@font-face{font-family:Montserrat-Bold;src:url(../fonts/Montserrat-Bold.ttf)}.game{background-color:#81C784;padding:25px;border-radius:25px}.game .letter{float:left;padding:10px;border-bottom:3px solid #fff;margin-bottom:15px;margin-left:10px;font-size:24px;background-color:#31791f;width:50px;color:#fff}.timer{display:block;background-color:#81C784;height:75px;width:75px;line-height:75px;border-radius:50%;font-size:40px}.results .play,.titlePage .play{margin:15px auto;width:100%}@font-face{font-family:Montserrat;src:url(../fonts/Montserrat-Regular.ttf)}@font-face{font-family:Montserrat-Bold;src:url(../fonts/Montserrat-Bold.ttf)}body{background-color:#2E7D32;font-family:Montserrat}body .app-container{position:relative;top:100px}.titlePage,body .app-container .main-window{padding:50px;background-color:#81C784;border-radius:25px}.titlePage h1{font-size:36px;font-weight:700}.titlePage .username{height:45px}.ranking{margin-top:50px;padding:25px;background-color:#81C784;border-radius:25px}.ranking h1{margin-bottom:35px}.ranking table{min-width:75%;max-width:100%;margin:auto;background-color:#fff;padding:25px}.ranking table .counter{width:25px;text-align:center}
+@font-face {
+  font-family: "Montserrat";
+  src: url("../../dist/fonts/Montserrat-Regular.ttf"); }
+
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url("../../dist/fonts/Montserrat-Bold.ttf"); }
+
+.game {
+  background-color: #81C784;
+  padding: 25px;
+  border-radius: 25px; }
+  .game .legend-word {
+    color: white; }
+  .game p {
+    color: white; }
+  .game .letter {
+    float: left;
+    padding: 10px;
+    border-bottom: 3px solid white;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    font-size: 24px;
+    background-color: #31791f;
+    width: 50px;
+    text-align: center;
+    color: white; }
+
+.timer {
+  display: block;
+  background-color: #81C784;
+  height: 75px;
+  width: 75px;
+  line-height: 75px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 40px;
+  color: white; }
+
+.results h1, .results h3, .results p {
+  color: #ffffff; }
+
+.results .play {
+  margin: 15px auto;
+  width: 100%; }
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../../dist/fonts/Montserrat-Regular.ttf"); }
+
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url("../../dist/fonts/Montserrat-Bold.ttf"); }
+
+body {
+  background-color: #2E7D32;
+  font-family: "Montserrat"; }
+  body .app-container {
+    position: relative;
+    top: 100px; }
+    body .app-container .main-window {
+      padding: 50px;
+      background-color: #81C784;
+      border-radius: 25px; }
+
+.titlePage {
+  padding: 50px;
+  background-color: #81C784;
+  border-radius: 25px; }
+  .titlePage h1 {
+    font-size: 36px;
+    text-align: center;
+    color: white;
+    font-weight: bold; }
+  .titlePage .username {
+    height: 45px; }
+  .titlePage .play {
+    margin: 15px auto;
+    width: 100%; }
+
+.ranking {
+  margin-top: 50px;
+  padding: 25px;
+  background-color: #81C784;
+  border-radius: 25px; }
+  .ranking h1 {
+    color: white;
+    text-align: center;
+    margin-bottom: 35px; }
+  .ranking table {
+    min-width: 75%;
+    max-width: 100%;
+    margin: auto;
+    background-color: white;
+    padding: 25px; }
+    .ranking table .points {
+      text-align: center; }
+    .ranking table .counter {
+      width: 25px;
+      text-align: center; }
+    .ranking table .points-th {
+      text-align: center; }

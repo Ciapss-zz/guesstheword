@@ -30,14 +30,18 @@ var getPassObj = function() {
 }
 
 //save and get all results
-var results = function($http) {
+var results = function($http, $location) {
     var get = function() {
         return $http.get("https://guesstheword-ed9bc.firebaseio.com/Results.json").then(function(response) {
             return response.data;
         });
     };
     var save = function(results) {
-        return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results);
+        if (results) {
+            return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results);
+        } else {
+            $location.path('/');
+        }
     }
 
     return {
@@ -376,7 +380,11 @@ var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results',
     // $scope.result = "dev";  
     
     //get username from welcome view
+    $scope.username
+
     $scope.result = getPassObj.getObj();
+
+
 
     //get all results
     var getResults = function(){
@@ -386,9 +394,14 @@ var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results',
     };
 
     //save and get results
-    results.save($scope.result).then(function(response){
-        getResults();
-    });
+    if($scope.result) {
+        results.save($scope.result).then(function(response){
+            getResults();
+        });
+    } else {
+        $location.path('/');
+    }
+
 
 
 }];

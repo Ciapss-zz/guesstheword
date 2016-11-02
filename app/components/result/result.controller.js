@@ -4,7 +4,11 @@ var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results',
     // $scope.result = "dev";  
     
     //get username from welcome view
+    $scope.username
+
     $scope.result = getPassObj.getObj();
+
+
 
     //get all results
     var getResults = function(){
@@ -14,9 +18,14 @@ var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results',
     };
 
     //save and get results
-    results.save($scope.result).then(function(response){
-        getResults();
-    });
+    if($scope.result) {
+        results.save($scope.result).then(function(response){
+            getResults();
+        });
+    } else {
+        $location.path('/');
+    }
+
 
 
 }];

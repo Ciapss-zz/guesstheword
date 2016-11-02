@@ -17,14 +17,18 @@ var getPassObj = function() {
 }
 
 //save and get all results
-var results = function($http) {
+var results = function($http, $location) {
     var get = function() {
         return $http.get("https://guesstheword-ed9bc.firebaseio.com/Results.json").then(function(response) {
             return response.data;
         });
     };
     var save = function(results) {
-        return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results);
+        if (results) {
+            return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results);
+        } else {
+            $location.path('/');
+        }
     }
 
     return {
