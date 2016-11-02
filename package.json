@@ -13,6 +13,7 @@
   "devDependencies": {
     "browser-sync": "^2.2.0",
     "gulp": "^3.8.11",
+    "gulp-clean-css": "^2.0.13",
     "gulp-concat": "^2.6.0",
     "gulp-jsmin": "^0.1.5",
     "gulp-rename": "^1.2.2",

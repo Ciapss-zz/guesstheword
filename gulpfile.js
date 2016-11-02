@@ -6,6 +6,7 @@ var concat      = require('gulp-concat');
 var bourbon     = require('node-bourbon').includePaths;
 var jsmin       = require('gulp-jsmin');
 var rename      = require('gulp-rename');
+var cleanCSS    = require('gulp-clean-css');
 
 var src = {
     scss: './app/assets/scss/**/*.scss',
@@ -20,6 +21,7 @@ var dist = {
 var angular = [
   './app/app.module.js',
   './app/shared/services.js',
+  './app/shared/filters.js',
   './app/components/welcome/welcome.js',
   './app/components/welcome/welcome.controller.js',
   './app/components/words/words.js',
@@ -27,7 +29,9 @@ var angular = [
   './app/components/game/game.js',
   './app/components/game/game.factories.js',
   './app/components/game/game.controller.js',
-  './app/components/game/game.directives.js'
+  './app/components/game/game.directives.js',
+  './app/components/result/result.js',
+  './app/components/result/result.controller.js'
 ];
 
 gulp.task('serve', ['sass', 'angularMerge'], function() {
@@ -75,5 +79,11 @@ gulp.task('angularMin', function(){
     }));
 });
 
+gulp.task('cssMin', function(){
+  return gulp.src(dist.css+"/main.css")
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest(dist.css));
+})
+
 gulp.task('default', ['serve']);
-gulp.task('minify', ['angularMin']);
+gulp.task('minify', ['angularMin', 'cssMin']);

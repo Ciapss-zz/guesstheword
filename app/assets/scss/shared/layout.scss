@@ -1,0 +1,13 @@
+body {
+    background-color: $background-main;
+    font-family: "Montserrat";
+    .app-container {
+        position: relative;
+        top: 100px;
+        .main-window {    
+            padding: 50px;
+            background-color: $background-app;
+            border-radius: 25px;
+        }
+    }
+}

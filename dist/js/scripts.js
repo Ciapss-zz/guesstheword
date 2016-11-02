@@ -1,14 +1,16 @@
 angular.module('myApp', [
+    'timer',
     'myApp.welcome',
     'myApp.words',
     'myApp.game',
+    'myApp.result',
     'ngRoute'
 ])
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.otherwise({
         redirectTo: '/'
     });
-}]);
+}])
 //Service for passing objects between controllers
 var getPassObj = function() {
     var obj;
@@ -27,8 +29,50 @@ var getPassObj = function() {
     }
 }
 
+//save and get all results
+var results = function($http) {
+    var get = function() {
+        return $http.get("https://guesstheword-ed9bc.firebaseio.com/Results.json").then(function(response) {
+            return response.data;
+        });
+    };
+    var save = function(results) {
+            console.log(results);
+            return $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results).then(function(response) {
+                return console.log('save: ' + response);
+            });
+    }
+
+    return {
+        get: get,
+        save: save
+    }
+}
+
 angular.module('myApp')
 .service('getPassObj', getPassObj)
+.service('results', results);
+//filter for top scores
+var orderObjectBy = function(){
+ return function(input, attribute) {
+    if (!angular.isObject(input)) return input;
+
+    var array = [];
+    for(var objectKey in input) {
+        array.push(input[objectKey]);
+    }
+
+    array.sort(function(a, b){
+        a = parseInt(a[attribute]);
+        b = parseInt(b[attribute]);
+        return b - a;
+    });
+    return array;
+ }
+};
+
+angular.module('myApp')
+.filter('orderObjectBy', orderObjectBy)
 angular.module('myApp.welcome', ['ngRoute'])
 .config(['$routeProvider', function($routeProvider){
     $routeProvider.when('/', {
@@ -36,10 +80,16 @@ angular.module('myApp.welcome', ['ngRoute'])
         controller: 'WelcomeController'
     })
 }]);
-var WelcomeController = ['$scope', '$location', 'getPassObj', function($scope, $location, getPassObj) {
+var WelcomeController = ['$scope', '$location', 'getPassObj', 'results', function($scope, $location, getPassObj, results) {
+    
+    //get all results
+    results.get($scope.result).then(function(response) {
+        $scope.allResults = response;
+    });
 
-    //Create name of player and pass to other controller
-     $scope.startGame = function(name) {
+
+    //Create name of player and pass to game controller
+    $scope.startGame = function(name) {
         getPassObj.passObj(name);
         $location.path('/game');
     }
@@ -74,7 +124,7 @@ var WordsController = ['$scope', '$http', 'gameFactory', function($scope, $http,
 
 angular.module('myApp.words')
 .controller('WordsController', WordsController);
-angular.module('myApp.game', ['ngRoute'])
+angular.module('myApp.game', ['ngRoute', 'timer'])
 .config(['$routeProvider', function($routeProvider){
     $routeProvider.when('/game', {
         templateUrl:'components/game/game.html',
@@ -209,26 +259,51 @@ var gameFactory = function($http) {
         }
     }
 
+    //save results in database
+    gameFactoryObj.saveResults = function(results) {
+        $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results);
+    }
+
 
     return gameFactoryObj; 
 };
 
 angular.module('myApp.game')
 .factory('gameFactory', gameFactory);
-var GameController = ['$scope', '$http', 'gameFactory', function($scope, $http, gameFactory) {
+var GameController = ['$scope', '$http', '$location', 'gameFactory', 'getPassObj', function($scope, $http, $location, gameFactory, getPassObj) {
+
+    // set username manually to get /game.html without setting username on homepage
+    // $scope.username = "dev";
+
+
+    //get username from homepage
+    $scope.username = getPassObj.getObj();
 
     //Get all shuffeled words at start
     $scope.start = function() {
         var currentState = {};
-        gameFactory.getWords().then(function(data) {
-            currentState.words = data;
+        gameFactory.getWords().then(function(response) {
+            currentState.words = response;
             $scope.currentState = gameFactory.getWord(currentState);
             document.getElementById('answer-field').focus();
+            document.getElementById('timer-game')['start']();
         });
     }
 
     $scope.next = function() {
         gameFactory.nextWord($scope.currentState);
+    }
+
+    //finish game, save results and pass result object to results view
+    $scope.finish = function() {
+        var result = {
+            name: $scope.username,
+            scores: $scope.currentState.scores
+        };
+
+        getPassObj.passObj(result);
+        $location.path('/result');
+        $scope.$apply();
     }
 }];
 
@@ -286,3 +361,36 @@ angular.module('myApp.game')
 .directive('answer', answer)
 .directive('enterClick', enterClick)
 .directive('focusOn', focusOn);
+angular.module('myApp.result', ['ngRoute'])
+.config(['$routeProvider', function($routeProvider){
+    $routeProvider.when('/result', {
+        templateUrl:'components/result/result.html',
+        controller:'ResultController'
+    })
+}]);
+var ResultController = ['$scope', '$http', '$location', 'getPassObj', 'results', function($scope, $http, $location, getPassObj, results) {
+
+    // set username manually to get /game.html without setting username on homepage
+    // $scope.result = "dev";
+    
+    //get username from welcome view
+    $scope.result = getPassObj.getObj();
+
+    //get all results
+    var getResults = function(){
+        results.get().then(function(response) {
+            $scope.allResults = response;
+            console.log('GET:' + response);
+        });
+    };
+
+    //save and get results
+    results.save($scope.result).then(function(response){
+        getResults();
+    });
+
+
+}];
+
+angular.module('myApp.result')
+.controller('ResultController', ResultController);

@@ -1,0 +1,31 @@
+<div class="main-window results resultPage col-xs-12 col-sm-8 col-md-8 col-lg-8 col-sm-offset-2" ng-show="result">
+  <h1>Congratulations {{result.name}} !</h1>
+  <div class="col-xs-12">
+    <h3>You scored: {{result.scores}}</h3>
+    <a class="play btn btn-lg btn-success" href="#/" role="button">Try again!</a>
+  </div>
+</div>
+<div class="main-window ranking col-xs-12 col-sm-8 col-md-8 col-lg-8 col-sm-offset-2" ng-show="result">
+  <h1>Ranking: </h1>
+    <table class="table table-striped" cellpadding="15" cellspacing="15">
+      <tbody>
+        <tr>
+          <th class="counter"></th>
+          <th>Name</th>
+          <th class="points-th">Points</th>
+        </tr>
+        <tr ng-repeat="result in allResults | orderObjectBy:'scores'">
+          <td>{{$index + 1}}.</td>
+          <td class="name">{{result.name}}</td>
+          <td class="points">{{result.scores}}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+<div class="main-window results resultPage col-xs-12 col-sm-8 col-md-8 col-lg-8 col-sm-offset-2" ng-show="!result">
+  <h1>Error!</h1>
+  <div class="col-xs-12">
+    <p>Ooops, something went wrong.</p>
+    <a class="play btn btn-lg btn-danger" href="#/" role="button">Try again!</a>
+  </div>
+</div>

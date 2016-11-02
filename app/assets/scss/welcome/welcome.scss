@@ -1,3 +1,48 @@
-.legend-word {
-    color: black;
+.titlePage {
+    padding: 50px;
+    background-color: $background-app;
+    border-radius: 25px;
+    h1 {
+        font-size: 36px;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+    }
+    .username {
+        height: 45px;
+    }
+    .play {
+        margin: 15px auto;
+        width: 100%;
+    }
+}
+
+.ranking {
+    margin-top: 50px;
+    padding: 25px;
+    background-color: $background-app;
+    border-radius: 25px;
+    h1 {
+        color: white;
+        text-align: center;
+        margin-bottom: 35px;
+    }
+    table {
+        min-width: 75%;
+        max-width: 100%;
+        margin: auto;
+        background-color: white;
+        padding: 25px;
+        .points {
+            text-align: center;
+        }
+        .counter {
+            width: 25px;
+            text-align: center;
+        }
+        .points-th {
+            text-align: center;
+        }
+
+    }
 }

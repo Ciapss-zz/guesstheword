@@ -126,6 +126,11 @@ var gameFactory = function($http) {
         }
     }
 
+    //save results in database
+    gameFactoryObj.saveResults = function(results) {
+        $http.post("https://guesstheword-ed9bc.firebaseio.com/Results.json", results);
+    }
+
 
     return gameFactoryObj; 
 };

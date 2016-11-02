@@ -1,0 +1,22 @@
+//Media
+$xs: "only screen and (min-width : 480px)";
+$sm: "only screen and (min-width : 768px)";
+$md: "only screen and (min-width : 992px)";
+$lg: "only screen and (min-width : 1200px)";
+
+//Fonts
+
+@font-face {
+  font-family: "Montserrat";
+  src: url('../../dist/fonts/Montserrat-Regular.ttf');
+}
+
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url('../../dist/fonts/Montserrat-Bold.ttf');
+}
+
+//colors
+
+$background-main: #2E7D32;
+$background-app: #81C784;
